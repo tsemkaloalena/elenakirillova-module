@@ -4,6 +4,7 @@ import {HomePageComponent} from "./modules/home-page/home-page.component";
 import {AppRoutingModule} from "./app-routing.config";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NotFoundErrorComponent} from "./modules/not-found-error/not-found-error.component";
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
   declarations: [
     AppComponent,
     HomePageComponent,
+    NotFoundErrorComponent
   ],
   providers: [],
   exports: [
