@@ -1,1 +1,4 @@
-<div>{{ label }}</div>
+<div>{{ label }}
+  <div *ngIf="required" class="requiredSign">*</div>
+</div>
+<ng-content></ng-content>

@@ -4,11 +4,13 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HeaderComponent} from "./header/header.component";
 import {FooterComponent} from "./footer/footer.component";
 import {EditableFieldComponent} from "./editable-field/editable-field.component";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   declarations: [
     HeaderComponent,

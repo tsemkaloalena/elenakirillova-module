@@ -1,14 +1,58 @@
 <app-header [admin]="true">
 </app-header>
-
-<div class="main-container">
+<div *ngIf="!isLoading" class="main-container">
 <!-- Вкладки с языками, внизу картинки и видео -->
-  <ng-container></ng-container>
-
-  <app-editable-field [label]="'Название'">
-    <input [model]="artwork.">
-  </app-editable-field>
+<!--  Создание/редактирование секции через модалку -->
+<!--  Создание/редактирование типа работы через модалку -->
+  <div>
+    <app-editable-field [label]="'Тип работы'" [required]="true">
+      <selector></selector>
+    </app-editable-field>
+    <app-editable-field [label]="'Секция'">
+      <selector></selector>
+    </app-editable-field>
+    <app-editable-field [label]="'Вес'">
+      <input>
+    </app-editable-field>
+    <app-editable-field [label]="'Дата создания'">
+      <calendar></calendar>
+    </app-editable-field>
+    <app-editable-field [label]="'Вес'">
+      <input>
+    </app-editable-field>
+    <div *ngFor="let language of languageList">
+      <div>{{ language }}</div>
+      <ng-container *ngTemplateOutlet="artworkInfo; context: {info: getInfoByLang(language)}"></ng-container>
+    </div>
+  </div>
 </div>
 
 <app-footer [admin]="true">
 </app-footer>
+
+<ng-template #artworkInfo let-info="info">
+  <app-editable-field [label]="'Название'" [required]="true">
+    <input type="text"
+           id="artworkName"
+           name="artworkName"
+           [(ngModel)]="info.artworkName">
+  </app-editable-field>
+  <app-editable-field [label]="'Описание'">
+    <textarea></textarea>
+  </app-editable-field>
+  <app-editable-field [label]="'Материалы'">
+    <textarea></textarea>
+  </app-editable-field>
+  <app-editable-field [label]="'Размер'">
+    <input>
+  </app-editable-field>
+  <app-editable-field [label]="'Цена'">
+    <input>
+  </app-editable-field>
+  <app-editable-field [label]="'Отображать в каталоге ' + info.language">
+    <checkbox></checkbox>
+  </app-editable-field>
+  <app-editable-field [label]="'Отображать в прайс-листе ' + info.language">
+    <checkbox></checkbox>
+  </app-editable-field>
+</ng-template>

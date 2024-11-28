@@ -5,19 +5,24 @@ import {AppRoutingModule} from "./app-routing.config";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NotFoundErrorComponent} from "./modules/not-found-error/not-found-error.component";
+import {AdminModule} from "./modules/admin-panel/admin.module";
+import {provideHttpClient} from "@angular/common/http";
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AdminModule
   ],
   declarations: [
     AppComponent,
     HomePageComponent,
     NotFoundErrorComponent
   ],
-  providers: [],
+  providers: [
+    provideHttpClient()
+  ],
   exports: [
     AppComponent
   ],

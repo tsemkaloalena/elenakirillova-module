@@ -2,6 +2,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from "@angular/core";
 import {HomePageComponent} from "./modules/home-page/home-page.component";
 import {NotFoundErrorComponent} from "./modules/not-found-error/not-found-error.component";
+import {AdminModule} from "./modules/admin-panel/admin.module";
+import {EditArtworkComponent} from "./modules/admin-panel/edit-artwork/edit-artwork.component";
 
 export const routes: Routes = [
   {
@@ -12,6 +14,15 @@ export const routes: Routes = [
   {
     path: 'app',
     children: [
+      {
+        path: 'admin',
+        children: [
+          {
+            path: 'edit-artwork',
+            component: EditArtworkComponent
+          }
+        ]
+      },
       {
         path: 'home',
         component: HomePageComponent
