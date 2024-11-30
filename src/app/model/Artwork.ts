@@ -1,8 +1,9 @@
 import {ArtworkLangInfo} from "./ArtworkLangInfo";
 
 import {ArtworkSection} from "./ArtworkSection";
-import {getAllLanguages, Language} from "./enums/Language";
+import {Language} from "./enums/Language";
 import {ArtworkType} from "./ArtworkType";
+import getAllLanguages = Language.getAllLanguages;
 
 export class Artwork {
   id?: string;
@@ -17,7 +18,6 @@ export class Artwork {
   video?: string;
 
   constructor() {
-    this.artworkLangInfoList = [];
     Artwork.initLangInfoList(this);
   }
 

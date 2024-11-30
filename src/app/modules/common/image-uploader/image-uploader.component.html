@@ -1,0 +1,12 @@
+<input type="file"
+       id="artworkImageUploader"
+       name="artworkImageUploader"
+       class="file-input"
+       (change)="onFileUploaded($event)" #fileUpload>
+
+<div class="file-upload">
+  <button class="upload-button"
+          (click)="fileUpload.click()">
+    Attach file
+  </button>
+</div>

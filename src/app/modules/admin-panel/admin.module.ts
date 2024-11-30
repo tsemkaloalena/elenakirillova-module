@@ -6,6 +6,8 @@ import {EditArtworkComponent} from "./edit-artwork/edit-artwork.component";
 import {CommonModule} from "../common/common.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule, provideHttpClient} from "@angular/common/http";
+import {EditArtworkInfoComponent} from "./edit-artwork/edit-artwork-info/edit-artwork-info.component";
+import {EditArtworkFilesComponent} from "./edit-artwork/edit-artwork-files/edit-artwork-files.component";
 
 @NgModule({
   imports: [
@@ -17,12 +19,16 @@ import {HttpClientModule, provideHttpClient} from "@angular/common/http";
     ReactiveFormsModule
   ],
   declarations: [
-    EditArtworkComponent
+    EditArtworkComponent,
+    EditArtworkInfoComponent,
+    EditArtworkFilesComponent
   ],
   providers: [
   ],
   exports: [
     EditArtworkComponent,
+    EditArtworkInfoComponent,
+    EditArtworkFilesComponent
   ],
   bootstrap: []
 })

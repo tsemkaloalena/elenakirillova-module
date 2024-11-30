@@ -5,6 +5,10 @@ export class ArtworkSectionLangInfo {
   language?: Language;
   sectionName?: string;
   description?: string;
-  visible?: boolean;
-  visibleInPricelist?: boolean;
+  visible?: boolean = true;
+  visibleInPricelist?: boolean = true;
+
+  constructor(language: Language) {
+    this.language = language;
+  }
 }

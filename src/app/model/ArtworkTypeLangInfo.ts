@@ -4,6 +4,10 @@ export class ArtworkTypeLangInfo {
   id?: string;
   language?: Language;
   typeName?: string;
-  visible?: boolean;
-  visibleInPricelist?: boolean;
+  visible?: boolean = true;
+  visibleInPricelist?: boolean = true;
+
+  constructor(language: Language) {
+    this.language = language;
+  }
 }

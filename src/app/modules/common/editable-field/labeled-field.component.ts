@@ -1,12 +1,12 @@
 import {Component, Input, OnInit, Output} from "@angular/core";
 
 @Component({
-  selector: 'app-editable-field',
-  templateUrl: './editable-field.component.html',
-  styleUrls: ['./editable-field.component.scss'],
+  selector: 'app-labeled-field',
+  templateUrl: './labeled-field.component.html',
+  styleUrls: ['./labeled-field.component.scss'],
   standalone: false
 })
-export class EditableFieldComponent implements OnInit {
+export class LabeledFieldComponent implements OnInit {
   @Input() label: string = '';
   @Input() required: boolean = false;
 

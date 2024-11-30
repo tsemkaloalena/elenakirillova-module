@@ -3,8 +3,9 @@ import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HeaderComponent} from "./header/header.component";
 import {FooterComponent} from "./footer/footer.component";
-import {EditableFieldComponent} from "./editable-field/editable-field.component";
+import {LabeledFieldComponent} from "./editable-field/labeled-field.component";
 import {FormsModule} from "@angular/forms";
+import {ImageUploaderComponent} from "./image-uploader/image-uploader.component";
 
 @NgModule({
   imports: [
@@ -15,13 +16,15 @@ import {FormsModule} from "@angular/forms";
   declarations: [
     HeaderComponent,
     FooterComponent,
-    EditableFieldComponent
+    LabeledFieldComponent,
+    ImageUploaderComponent
   ],
   providers: [],
   exports: [
     HeaderComponent,
     FooterComponent,
-    EditableFieldComponent
+    LabeledFieldComponent,
+    ImageUploaderComponent
   ],
   bootstrap: []
 })
