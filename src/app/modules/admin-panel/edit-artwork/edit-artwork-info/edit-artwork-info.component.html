@@ -1,75 +1,92 @@
 <div *ngIf="!isLoading">
   <!--  Создание/редактирование секции через модалку -->
   <!--  Создание/редактирование типа работы через модалку -->
-  <app-labeled-field [label]="'Тип работы'" [required]="true">
-    <select name="artworkType" [(ngModel)]="artwork.artworkType" (ngModelChange)="onArtworkTypeChanged()">
-      <option *ngFor="let type of artworkTypes" [ngValue]="type">{{ getArtworkTypeInfo(type).typeName }}</option>
-      <option class="newOption" (click)="onCreateTypeClicked()">Создать ещё</option>
-    </select>
-  </app-labeled-field>
-  <app-labeled-field [label]="'Секция'">
-    <select name="artworkSection" [(ngModel)]="artwork.artworkSection">
-      <option *ngFor="let section of artworkSections" [ngValue]="section">{{ getArtworkSectionInfo(section).sectionName }}</option>
-      <option class="newOption" (click)="onCreateSectionClicked()">Создать ещё</option>
-    </select>
-  </app-labeled-field>
-  <app-labeled-field [label]="'Вес'">
-    <input type="text"
-           id="artworkWeight"
-           name="artworkWeight"
-           [(ngModel)]="artwork.weight">
-  </app-labeled-field>
-  <app-labeled-field [label]="'Дата создания'">
-    <input type="date"
-           id="creationDate"
-           name="creationDate"
-           [(ngModel)]="artwork.creationDateTemp">
-  </app-labeled-field>
-  <div *ngFor="let language of languageList">
-    <div>{{ language }}</div>
-    <ng-container
-      *ngTemplateOutlet="artworkInfo; context: {info: getArtworkInfo(this.artwork, language)}"></ng-container>
+  <div class="edit-info-block">
+    <h2>Общая информация</h2>
+    <app-labeled-field [label]="'Тип работы'" [required]="true">
+      <select class="text-field" name="artworkType" [(ngModel)]="artwork.artworkType" (ngModelChange)="onArtworkTypeChanged()">
+        <option *ngFor="let type of artworkTypes" [ngValue]="type">{{ getArtworkTypeInfo(type).typeName }}</option>
+        <option class="new-option" (click)="onCreateTypeClicked()">Создать ещё</option>
+      </select>
+    </app-labeled-field>
+    <app-labeled-field [label]="'Серия'">
+      <select class="text-field" name="artworkSection" [(ngModel)]="artwork.artworkSection">
+        <option [ngValue]="null">-</option>
+        <option *ngFor="let section of artworkSections" [ngValue]="section">{{ getArtworkSectionInfo(section).sectionName }}</option>
+        <option *ngIf="!!artwork.artworkType?.id" class="new-option" (click)="onCreateSectionClicked()">Создать ещё</option>
+      </select>
+    </app-labeled-field>
+    <app-labeled-field [label]="'Вес'" [withMeasurementUnit]="true">
+      <input class="text-field"
+             type="text"
+             id="artworkWeight"
+             name="artworkWeight"
+             [(ngModel)]="artwork.weight">
+      <div class="measurement-unit">кг</div>
+    </app-labeled-field>
+    <app-labeled-field [label]="'Дата создания'">
+      <input class="text-field"
+             type="date"
+             id="creationDate"
+             name="creationDate"
+             [(ngModel)]="artwork.creationDateTemp">
+    </app-labeled-field>
+    <div class="edit-lang-info">
+      <div *ngFor="let language of languageList" class="edit-info-block">
+        <h2>{{ language }}</h2>
+        <ng-container
+          *ngTemplateOutlet="artworkInfo; context: {info: getArtworkInfo(this.artwork, language)}">
+        </ng-container>
+      </div>
+    </div>
   </div>
 </div>
 
 <ng-template #artworkInfo let-info="info">
   <app-labeled-field [label]="'Название'" [required]="true">
-    <input type="text"
+    <input class="text-field"
+           type="text"
            id="artworkName{{ info.language }}"
            name="artworkName{{ info.language }}"
            [(ngModel)]="info.artworkName">
   </app-labeled-field>
   <app-labeled-field [label]="'Описание'">
-    <textarea name="artworkDescription{{ info.language }}"
+    <textarea class="text-field"
+              name="artworkDescription{{ info.language }}"
               [(ngModel)]="info.description">
     </textarea>
   </app-labeled-field>
   <app-labeled-field [label]="'Материалы'">
-    <textarea name="artworkMaterials{{ info.language }}"
+    <textarea class="text-field"
+              name="artworkMaterials{{ info.language }}"
               [(ngModel)]="info.materials">
     </textarea>
   </app-labeled-field>
   <app-labeled-field [label]="'Размер'">
-    <input type="text"
+    <input class="text-field"
+           type="text"
            id="artworkSize{{ info.language }}"
            name="artworkSize{{ info.language }}"
            [(ngModel)]="info.size">
   </app-labeled-field>
-  <app-labeled-field [label]="'Цена'">
-    <input type="text"
+  <app-labeled-field [label]="'Цена'" [withMeasurementUnit]="true">
+    <input class="text-field"
+           type="text"
            id="artworkPrice{{ info.language }}"
            name="artworkPrice{{ info.language }}"
            [(ngModel)]="info.price">
-    <div class="currencySymbol">{{ getCurrencySymbol(info.language) }}</div>
+    <div>{{ getCurrencySymbol(info.language) }}</div>
   </app-labeled-field>
-  <app-labeled-field [label]="'Отображать в каталоге ' + info.language">
-    <input type="checkbox"
+  <app-labeled-field [label]="'Отображать в каталоге ' + info.language" [withCheckbox]="true">
+    <input class="text-field"
+           type="checkbox"
            id="artworkVisible{{ info.language }}"
            name="artworkVisible{{ info.language }}"
            [(ngModel)]="info.visible">
   </app-labeled-field>
-  <app-labeled-field [label]="'Отображать в прайс-листе ' + info.language">
-    <input type="checkbox"
+  <app-labeled-field [label]="'Отображать в прайс-листе ' + info.language" [withCheckbox]="true">
+    <input class="text-field"
+           type="checkbox"
            id="artworkVisible{{ info.language }}"
            name="artworkVisible{{ info.language }}"
            [(ngModel)]="info.visibleInPricelist">

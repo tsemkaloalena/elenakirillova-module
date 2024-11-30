@@ -1,0 +1,15 @@
+<div class="modal-background">
+  <div class="modal-container">
+    <div class="modal-header">
+      <button type="button" class="close-button" aria-label="Close" (click)="cancel()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-title">{{ title }}</div>
+    </div>
+    <div class="modal-body">{{ warningText }}</div>
+    <div class="modal-footer">
+      <button class="button yellow-button" (click)="continue()">{{ okButtonText }}</button>
+      <button class="button grey-button" *ngIf="!!cancelButtonText" (click)=cancel()>{{ cancelButtonText }}</button>
+    </div>
+  </div>
+</div>

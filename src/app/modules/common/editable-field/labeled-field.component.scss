@@ -2,3 +2,27 @@
   display: inline-block;
   color: #c95300;
 }
+
+.label {
+  margin: 20px 0 10px 0;
+}
+
+.with-measurement-unit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.with-checkbox-container {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.checkbox {
+  margin: 20px 0 10px 0;
+  display: flex;
+}

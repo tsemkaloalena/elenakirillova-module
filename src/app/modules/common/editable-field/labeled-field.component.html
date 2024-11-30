@@ -1,4 +1,9 @@
-<div>{{ label }}
-  <div *ngIf="required" class="requiredSign">*</div>
+<div [class.with-checkbox-container]="withCheckbox">
+  <div class="label">{{ label }}
+    <div *ngIf="required" class="requiredSign">*</div>
+  </div>
+  <div [class.with-measurement-unit]="withMeasurementUnit"
+       [class.checkbox]="withCheckbox">
+    <ng-content></ng-content>
+  </div>
 </div>
-<ng-content></ng-content>

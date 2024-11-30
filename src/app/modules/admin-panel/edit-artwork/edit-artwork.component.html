@@ -1,5 +1,6 @@
 <app-header [admin]="true">
 </app-header>
+
 <div class="main-container">
   <app-edit-artwork-info
     *ngIf="currentStep === 0"
@@ -10,16 +11,20 @@
     [artworkContainer]="artworkContainer">
   </app-edit-artwork-files>
 
-
-
-  <button *ngIf="currentStep === 0"
-          (click)="nextPage()">
-    Перейти к загрузке фотографий и видео
-  </button>
-<!--  TODO предупреждение: если файлы не загружены, работа не будет отображаться в каталоге и прайслисте. Продолжить редактирование можно будет позже -->
-  <button *ngIf="currentStep === 1"
-          (click)="previousPage()">Вернуться к редактированию информации</button>
-  <button (click)="save()">Сохранить и выйти</button>
+  <div class="button-container">
+    <button *ngIf="currentStep === 0"
+            class="button yellow-button"
+            (click)="goToPhotoLoading()">Сохранить и перейти к загрузке фотографий и видео</button>
+    <button *ngIf="currentStep === 1"
+            class="button yellow-button"
+            (click)="backToInfoEditing()">Вернуться к редактированию информации</button>
+  </div>
+  <div class="button-container">
+    <button class="button yellow-button"
+            (click)="saveAndExit()">Сохранить и выйти</button>
+    <button class="button grey-button"
+            (click)="exit()">Отменить</button>
+  </div>
 </div>
 
 <app-footer [admin]="true">

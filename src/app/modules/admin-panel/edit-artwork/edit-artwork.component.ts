@@ -9,6 +9,9 @@ import {ArtworkLangInfo} from "../../../model/ArtworkLangInfo";
 import {ArtworkType} from "../../../model/ArtworkType";
 import {LanguageService} from "../../../service/language.service";
 import {ArtworkSection} from "../../../model/ArtworkSection";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {CustomModalComponent} from "../../common/custom-modal/custom-modal.component";
+import {AdminService} from "../../../service/admin.service";
 
 @Component({
   selector: 'app-edit-artwork',
@@ -19,20 +22,71 @@ import {ArtworkSection} from "../../../model/ArtworkSection";
 export class EditArtworkComponent implements OnInit {
   artworkContainer = new ArtworkContainer();
   currentStep = 0;
+  isLoading = false;
+
+  constructor(private modalService: NgbModal,
+              private adminService: AdminService,
+              private redirectService: RedirectService) {
+  }
 
   ngOnInit(): void {
   }
 
-  nextPage() {
+  private nextPage() {
     this.currentStep++;
   }
 
-  previousPage() {
+  private previousPage() {
     this.currentStep--;
   }
 
-  save() {
-    console.log(this.artworkContainer);
+  private save(): Observable<any> {
+    this.isLoading = true;
+    let savingObservable;
+    if (!!this.artworkContainer.artwork.id) {
+      savingObservable = this.adminService.updateArtwork(this.artworkContainer.artwork);
+    } else {
+      savingObservable = this.adminService.createNewArtwork(this.artworkContainer.artwork);
+    }
+
+    return savingObservable.pipe(
+      map(newArtwork => {
+        this.artworkContainer.artwork = newArtwork;
+        this.isLoading = false;
+      })
+    );
+  }
+
+  goToPhotoLoading() {
+
+    this.nextPage();
+  }
+
+  backToInfoEditing() {
+
+    this.previousPage();
+  }
+
+  saveAndExit() {
+    if (!this.artworkContainer.artwork.images || this.artworkContainer.artwork.images?.length === 0) {
+      const modalRef = this.modalService.open(CustomModalComponent);
+      modalRef.componentInstance.text = 'Если не загружена хотя бы одна фотография, работа не будет отображаться в каталоге и прайслисте. Вы точно хотите выйти из режима редактирования?\n\nПродолжить редактирование можно будет позже.';
+      modalRef.componentInstance.okButtonText = 'Продолжить редактирование';
+      modalRef.componentInstance.cancelButtonText = 'Сохранить и выйти';
+      modalRef.result.then((res) => {
+        if (!res) {
+          this.save().pipe(
+            map(() => {
+              this.exit();
+            })
+          ).subscribe();
+        }
+      });
+    }
+  }
+
+  exit() {
+    window.location.href = this.redirectService.getAdminArtworkCatalogUrl();
   }
 
 }

@@ -8,7 +8,7 @@ import getAllLanguages = Language.getAllLanguages;
 export class Artwork {
   id?: string;
   artworkType?: ArtworkType;
-  artworkSection?: ArtworkSection;
+  artworkSection: ArtworkSection | null = null;
   numOrder?: number;
   weight?: number;
   creationDate?: string;

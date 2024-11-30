@@ -8,6 +8,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule, provideHttpClient} from "@angular/common/http";
 import {EditArtworkInfoComponent} from "./edit-artwork/edit-artwork-info/edit-artwork-info.component";
 import {EditArtworkFilesComponent} from "./edit-artwork/edit-artwork-files/edit-artwork-files.component";
+import {
+  EditArtworkTypeModalComponent
+} from "./edit-artwork/edit-artwork-type-modal/edit-artwork-type-modal.component";
 
 @NgModule({
   imports: [
@@ -21,14 +24,16 @@ import {EditArtworkFilesComponent} from "./edit-artwork/edit-artwork-files/edit-
   declarations: [
     EditArtworkComponent,
     EditArtworkInfoComponent,
-    EditArtworkFilesComponent
+    EditArtworkFilesComponent,
+    EditArtworkTypeModalComponent
   ],
   providers: [
   ],
   exports: [
     EditArtworkComponent,
     EditArtworkInfoComponent,
-    EditArtworkFilesComponent
+    EditArtworkFilesComponent,
+    EditArtworkTypeModalComponent
   ],
   bootstrap: []
 })

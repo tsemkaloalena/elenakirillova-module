@@ -85,7 +85,7 @@ export class EditArtworkInfoComponent implements OnInit {
       map(sections => {
         this.artworkSections = sections;
         if (sections?.length > 0) {
-          this.artwork.artworkSection = sections[0];
+          this.artwork.artworkSection = null;
         }
       })
     ).subscribe();

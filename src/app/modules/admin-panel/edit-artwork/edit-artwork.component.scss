@@ -1,7 +1,18 @@
-.currencySymbol {
+.currency-symbol {
   display: inline-block;
 }
 
-.newOption {
+.new-option {
   color: blueviolet;
+}
+
+.button-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button-container * {
+  font-size: 14px;
 }

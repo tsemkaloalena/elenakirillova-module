@@ -6,25 +6,33 @@ import {FooterComponent} from "./footer/footer.component";
 import {LabeledFieldComponent} from "./editable-field/labeled-field.component";
 import {FormsModule} from "@angular/forms";
 import {ImageUploaderComponent} from "./image-uploader/image-uploader.component";
+import {CustomModalComponent} from "./custom-modal/custom-modal.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {LoadingScreenModalComponent} from "./loading-screen-modal/loading-screen-modal.component";
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   declarations: [
     HeaderComponent,
     FooterComponent,
     LabeledFieldComponent,
-    ImageUploaderComponent
+    ImageUploaderComponent,
+    CustomModalComponent,
+    LoadingScreenModalComponent
   ],
   providers: [],
   exports: [
     HeaderComponent,
     FooterComponent,
     LabeledFieldComponent,
-    ImageUploaderComponent
+    ImageUploaderComponent,
+    CustomModalComponent,
+    LoadingScreenModalComponent
   ],
   bootstrap: []
 })

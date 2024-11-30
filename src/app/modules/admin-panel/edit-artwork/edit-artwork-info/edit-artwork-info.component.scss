@@ -1,0 +1,16 @@
+.edit-lang-info {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.edit-info-block {
+  margin: 40px 0;
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .edit-lang-info {
+    flex-direction: column;
+  }
+}
