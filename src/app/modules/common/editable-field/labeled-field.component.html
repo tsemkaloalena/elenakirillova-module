@@ -2,7 +2,7 @@
   <div class="label">{{ label }}
     <div *ngIf="required" class="requiredSign">*</div>
   </div>
-  <div [class.with-measurement-unit]="withMeasurementUnit"
+  <div class="field-content"
        [class.checkbox]="withCheckbox">
     <ng-content></ng-content>
   </div>

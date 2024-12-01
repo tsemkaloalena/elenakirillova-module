@@ -5,18 +5,18 @@
     <h2>Общая информация</h2>
     <app-labeled-field [label]="'Тип работы'" [required]="true">
       <select class="text-field" name="artworkType" [(ngModel)]="artwork.artworkType" (ngModelChange)="onArtworkTypeChanged()">
-        <option *ngFor="let type of artworkTypes" [ngValue]="type">{{ getArtworkTypeInfo(type).typeName }}</option>
-        <option class="new-option" (click)="onCreateTypeClicked()">Создать ещё</option>
+        <option *ngFor="let type of artworkTypes" [ngValue]="type">{{ languageService.getArtworkTypeInfo(type).typeName }}</option>
       </select>
+      <button class="button edit-button" (click)="onCreateTypeClicked()"></button>
     </app-labeled-field>
     <app-labeled-field [label]="'Серия'">
       <select class="text-field" name="artworkSection" [(ngModel)]="artwork.artworkSection">
         <option [ngValue]="null">-</option>
-        <option *ngFor="let section of artworkSections" [ngValue]="section">{{ getArtworkSectionInfo(section).sectionName }}</option>
-        <option *ngIf="!!artwork.artworkType?.id" class="new-option" (click)="onCreateSectionClicked()">Создать ещё</option>
+        <option *ngFor="let section of artworkSections" [ngValue]="section">{{ languageService.getArtworkSectionInfo(section).sectionName }}</option>
       </select>
+      <button *ngIf="!!artwork.artworkType?.id" class="button edit-button" (click)="onCreateSectionClicked()"></button>
     </app-labeled-field>
-    <app-labeled-field [label]="'Вес'" [withMeasurementUnit]="true">
+    <app-labeled-field [label]="'Вес'">
       <input class="text-field"
              type="text"
              id="artworkWeight"
@@ -32,10 +32,10 @@
              [(ngModel)]="artwork.creationDateTemp">
     </app-labeled-field>
     <div class="edit-lang-info">
-      <div *ngFor="let language of languageList" class="edit-info-block">
+      <div *ngFor="let language of languageService.getAllLanguages()" class="edit-info-block">
         <h2>{{ language }}</h2>
         <ng-container
-          *ngTemplateOutlet="artworkInfo; context: {info: getArtworkInfo(this.artwork, language)}">
+          *ngTemplateOutlet="artworkInfo; context: {info: languageService.getArtworkInfo(this.artwork, language)}">
         </ng-container>
       </div>
     </div>
@@ -69,7 +69,7 @@
            name="artworkSize{{ info.language }}"
            [(ngModel)]="info.size">
   </app-labeled-field>
-  <app-labeled-field [label]="'Цена'" [withMeasurementUnit]="true">
+  <app-labeled-field [label]="'Цена'">
     <input class="text-field"
            type="text"
            id="artworkPrice{{ info.language }}"
@@ -91,4 +91,9 @@
            name="artworkVisible{{ info.language }}"
            [(ngModel)]="info.visibleInPricelist">
   </app-labeled-field>
+
+
+  <app-edit-artwork-type-modal #editArtworkTypeModalComponent
+                               [artworkTypes]="artworkTypes">
+  </app-edit-artwork-type-modal>
 </ng-template>

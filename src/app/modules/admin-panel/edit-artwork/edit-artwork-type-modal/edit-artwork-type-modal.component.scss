@@ -1,0 +1,12 @@
+@import "../edit-artwork-info/edit-artwork-info.component";
+
+.type-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 30px 30px;
+  border-bottom: 1px solid var(--beige);
+  padding: 15px 0 5px 0;
+}
+
+.beige-button {
+  margin: 20px 0;
+}

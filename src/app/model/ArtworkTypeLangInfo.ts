@@ -2,7 +2,7 @@ import {Language} from "./enums/Language";
 
 export class ArtworkTypeLangInfo {
   id?: string;
-  language?: Language;
+  language: Language;
   typeName?: string;
   visible?: boolean = true;
   visibleInPricelist?: boolean = true;

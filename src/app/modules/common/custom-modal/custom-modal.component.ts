@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnInit, TemplateRef} from "@angular/core";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -8,10 +8,11 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
   standalone: false
 })
 export class CustomModalComponent implements OnInit {
-  title?: string = "Предупреждение";
-  warningText?: string;
-  okButtonText?: string;
-  cancelButtonText?: string;
+  @Input() title?: string = "Предупреждение";
+  @Input() text?: string;
+  @Input() contentBlock?: TemplateRef<any>;
+  @Input() okButtonText?: string;
+  @Input() cancelButtonText?: string;
 
   constructor(public activeModal: NgbActiveModal) {
   }

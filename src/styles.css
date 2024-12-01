@@ -4,6 +4,7 @@
   box-sizing: border-box;
   font-family: Roboto, serif;
   font-size: 14px;
+  color: var(--black);
 }
 
 .main-container {
@@ -37,8 +38,8 @@ input[type=checkbox] {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   text-transform: uppercase;
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .yellow-button {
@@ -56,6 +57,11 @@ input[type=checkbox] {
   color: #fff;
 }
 
+.beige-button {
+  background-color: var(--beige);
+  color: #fff;
+}
+
 .grey-button:hover {
   background-color: var(--black);
   color: #fff;
@@ -69,4 +75,20 @@ input[type=checkbox] {
   width: 100%;
   resize: vertical;
   white-space: pre-wrap;
+}
+
+.trash-button {
+  background-color: var(--beige);
+  mask-image: url("assets/images/icons/trash.svg");
+  mask-size: 18px;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+.edit-button {
+  background-color: var(--beige);
+  mask-image: url("assets/images/icons/edit.png");
+  mask-size: 20px;
+  mask-repeat: no-repeat;
+  mask-position: center;
 }

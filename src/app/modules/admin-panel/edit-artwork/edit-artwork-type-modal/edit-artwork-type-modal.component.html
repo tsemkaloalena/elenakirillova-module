@@ -1,3 +1,51 @@
 список типов прокручивающийся
 кнопка добавить в доп модалке
 LoadingScreenComponent на всё
+
+<ng-template #typesModalContent>
+  <div class="type-table" *ngFor="let artworkType of artworkTypes">
+    <div *ngFor="let langInfo of getAllLanguagesInfo(artworkType)">{{ langInfo }}</div>
+    <button class="button edit-button" (click)="editType(artworkType)"></button>
+    <button class="button trash-button" (click)="deleteType(artworkType)"></button>
+  </div>
+  <div class="type-table" *ngFor="let artworkType of typesToCreate; let i = index">
+    <div *ngFor="let langInfo of getAllLanguagesInfo(artworkType)">{{ langInfo }}</div>
+    <button class="button edit-button" (click)="editNewType(i)"></button>
+    <button class="button trash-button" (click)="deleteNewType(i)"></button>
+  </div>
+
+  <button class="button beige-button" (click)="createNewType()">Добавить</button>
+</ng-template>
+
+<ng-template #editTypeModal>
+  <div class="edit-lang-info">
+    <div *ngFor="let language of languageService.getAllLanguages()" class="edit-info-block">
+      <h2>{{ language }}</h2>
+
+      <app-labeled-field [label]="'Название'" [required]="true">
+        <input class="text-field"
+               type="text"
+               id="artworkName{{ info.language }}"
+               name="artworkName{{ info.language }}"
+               [(ngModel)]="info.artworkName">
+      </app-labeled-field>
+      <app-labeled-field [label]="'Отображать в каталоге ' + info.language" [withCheckbox]="true">
+        <input class="text-field"
+               type="checkbox"
+               id="artworkVisible{{ info.language }}"
+               name="artworkVisible{{ info.language }}"
+               [(ngModel)]="info.visible">
+      </app-labeled-field>
+      <app-labeled-field [label]="'Отображать в прайс-листе ' + info.language" [withCheckbox]="true">
+        <input class="text-field"
+               type="checkbox"
+               id="artworkVisible{{ info.language }}"
+               name="artworkVisible{{ info.language }}"
+               [(ngModel)]="info.visibleInPricelist">
+      </app-labeled-field>
+    </div>
+  </div>
+</ng-template>
+
+<app-loading-screen-modal *ngIf="isLoading">
+</app-loading-screen-modal>

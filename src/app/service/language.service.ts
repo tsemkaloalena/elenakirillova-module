@@ -11,6 +11,10 @@ import {ArtworkSectionLangInfo} from "../model/ArtworkSectionLangInfo";
   providedIn: 'root'
 })
 export class LanguageService {
+  public getAllLanguages(): Language[] {
+    return Language.getAllLanguages();
+  }
+
   public getArtworkInfo(artwork: Artwork, language: Language): ArtworkLangInfo {
     if (!language) {
       language = Language.getAdminLanguage();

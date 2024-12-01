@@ -4,7 +4,7 @@ import getAllLanguages = Language.getAllLanguages;
 
 export class ArtworkType {
   id?: string;
-  artworkTypeLangInfoList?: ArtworkTypeLangInfo[] = [];
+  artworkTypeLangInfoList: ArtworkTypeLangInfo[] = [];
 
   constructor() {
     ArtworkType.initLangInfoList(this);
@@ -12,7 +12,7 @@ export class ArtworkType {
 
   public static initLangInfoList(artworkType: ArtworkType) {
     getAllLanguages().forEach((lang: Language) => {
-      artworkType.artworkTypeLangInfoList!.push(new ArtworkTypeLangInfo(lang));
+      artworkType.artworkTypeLangInfoList.push(new ArtworkTypeLangInfo(lang));
     });
   }
 }

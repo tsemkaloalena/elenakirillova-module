@@ -9,7 +9,6 @@ import {Component, Input, OnInit, Output} from "@angular/core";
 export class LabeledFieldComponent implements OnInit {
   @Input() label: string = '';
   @Input() required: boolean = false;
-  @Input() withMeasurementUnit: boolean = false;
   @Input() withCheckbox: boolean = false;
 
   ngOnInit(): void {

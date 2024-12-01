@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output, signal, TemplateRef, ViewChild} from "@angular/core";
+import {Component, Input, OnInit, TemplateRef, ViewChild} from "@angular/core";
 import {Artwork} from "../../../../model/Artwork";
 import {Language} from "../../../../model/enums/Language";
 import {ArtworkType} from "../../../../model/ArtworkType";
@@ -9,6 +9,7 @@ import {RedirectService} from "../../../../service/redirect.service";
 import {LanguageService} from "../../../../service/language.service";
 import {map, Observable, switchMap} from "rxjs";
 import {ArtworkContainer} from "../edit-artwork.component";
+import {EditArtworkTypeModalComponent} from "../edit-artwork-type-modal/edit-artwork-type-modal.component";
 
 @Component({
   selector: 'app-edit-artwork-info',
@@ -18,10 +19,10 @@ import {ArtworkContainer} from "../edit-artwork.component";
 })
 export class EditArtworkInfoComponent implements OnInit {
   @ViewChild('artworkInfo') artworkInfo!: TemplateRef<any>;
+  @ViewChild('editArtworkTypeModalComponent') editArtworkTypeModalComponent!: EditArtworkTypeModalComponent;
   @Input() artworkContainer!: ArtworkContainer;
 
   isNew: boolean = true;
-  languageList = Language.getAllLanguages();
   artworkTypes: ArtworkType[] = [];
   artworkSections: ArtworkSection[] = [];
   isLoading: boolean = false;
@@ -29,7 +30,7 @@ export class EditArtworkInfoComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private artworkService: ArtworkService,
               private redirectService: RedirectService,
-              private languageService: LanguageService) {
+              protected languageService: LanguageService) {
   }
 
   ngOnInit(): void {
@@ -72,9 +73,6 @@ export class EditArtworkInfoComponent implements OnInit {
   }
 
   getCurrencySymbol = Language.getCurrencySymbol;
-  getArtworkInfo = this.languageService.getArtworkInfo;
-  getArtworkTypeInfo = this.languageService.getArtworkTypeInfo;
-  getArtworkSectionInfo = this.languageService.getArtworkSectionInfo;
 
   onArtworkTypeChanged() {
     if (!this.artworkContainer.artwork?.artworkType?.id) {
@@ -97,7 +95,7 @@ export class EditArtworkInfoComponent implements OnInit {
   }
 
   onCreateTypeClicked() {
-
+    this.editArtworkTypeModalComponent.openModal();
     // this.artwork.artworkType =
   }
 }

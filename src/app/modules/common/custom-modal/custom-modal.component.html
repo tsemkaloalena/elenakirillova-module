@@ -6,7 +6,12 @@
       </button>
       <div class="modal-title">{{ title }}</div>
     </div>
-    <div class="modal-body">{{ warningText }}</div>
+    <div class="modal-body">
+      <div *ngIf="!!text">{{ text }}</div>
+      <div *ngIf="!!contentBlock">
+        <ng-container *ngTemplateOutlet="contentBlock"></ng-container>
+      </div>
+    </div>
     <div class="modal-footer">
       <button class="button yellow-button" (click)="continue()">{{ okButtonText }}</button>
       <button class="button grey-button" *ngIf="!!cancelButtonText" (click)=cancel()>{{ cancelButtonText }}</button>

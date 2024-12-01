@@ -1,16 +1,19 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Artwork} from "../model/Artwork";
-import {Observable, of} from "rxjs";
+import {catchError, Observable, of} from "rxjs";
 import {ArtworkType} from "../model/ArtworkType";
 import {Language} from "../model/enums/Language";
 import {ArtworkSection} from "../model/ArtworkSection";
+import {ErrorUtilService} from "./error.util.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArtworkService {
-  constructor(protected http: HttpClient) {
+  constructor(protected http: HttpClient,
+              private modalService: NgbModal) {
   }
 
   getById(id: string): Observable<Artwork | null> {
@@ -31,5 +34,9 @@ export class ArtworkService {
       {artworkSectionLangInfos: [{sectionName: 'b1', language: Language.RUS}, {sectionName: 'b2', language: Language.ENG}]}
     ]);
     // TODO return this.http.get<ArtworkSection[]>(`/api/artworks/getSectionsByType/${artworkTypeId}`);
+  }
+
+  getArtworksByType(artworkTypeId: string): Observable<Artwork[]> {
+    return this.http.get<Artwork[]>(`/getArtworksByType/${artworkTypeId}`);
   }
 }
