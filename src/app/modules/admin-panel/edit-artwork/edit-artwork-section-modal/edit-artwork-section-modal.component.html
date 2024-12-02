@@ -1,0 +1,88 @@
+<ng-template #sectionsModalContent>
+  <table class="section-table">
+    <tr>
+      <ng-container *ngFor="let language of languageService.getAllLanguages()">
+        <th>{{ language }}</th>
+        <th class="small-cell">Отображать<br>в каталоге</th>
+        <th class="small-cell">Отображать<br>в прайслисте</th>
+      </ng-container>
+      <th class="small-cell"></th>
+      <th class="small-cell"></th>
+    </tr>
+    <tr *ngFor="let artworkSection of artworkSections">
+      <ng-container *ngFor="let langInfo of getAllLanguagesInfo(artworkSection); let i = index">
+        <td>{{ langInfo.sectionName }}</td>
+        <td class="small-cell">
+          <input disabled
+                 type="checkbox"
+                 name="visible_{{ artworkSection.id }}_{{ i }}"
+                 [(ngModel)]="langInfo.visible">
+        </td>
+        <td class="small-cell">
+          <input disabled
+                 type="checkbox"
+                 name="visibleInPricelist_{{ artworkSection.id }}_{{ i }}"
+                 [(ngModel)]="langInfo.visibleInPricelist">
+        </td>
+      </ng-container>
+      <td class="small-cell"><button class="button edit-button" (click)="editSection(artworkSection)"></button></td>
+      <td class="small-cell"><button class="button trash-button" (click)="deleteSection(artworkSection)"></button></td>
+    </tr>
+    <tr *ngFor="let artworkSection of sectionsToCreate; let i = index">
+      <ng-container *ngFor="let langInfo of getAllLanguagesInfo(artworkSection); let j = index">
+        <td>{{ langInfo.sectionName }}</td>
+        <td class="small-cell">
+          <input disabled
+                 type="checkbox"
+                 name="visible_{{ i }}_{{ j }}"
+                 [(ngModel)]="langInfo.visible">
+        </td>
+        <td class="small-cell"
+        ><input disabled
+                type="checkbox"
+                name="visibleInPricelist_{{ i }}_{{ j }}"
+                [(ngModel)]="langInfo.visibleInPricelist">
+        </td>
+      </ng-container>
+      <td class="small-cell"><button class="button edit-button" (click)="editNewSection(i)"></button></td>
+      <td class="small-cell"><button class="button trash-button" (click)="deleteNewSection(i)"></button></td>
+    </tr>
+  </table>
+
+  <button class="button beige-button" (click)="createNewSection()">Добавить</button>
+</ng-template>
+
+<ng-template #editSectionModal>
+  <div class="edit-lang-info">
+    <div *ngFor="let language of languageService.getAllLanguages()" class="edit-info-block">
+      <h2>{{ language }}</h2>
+      <ng-container
+        *ngTemplateOutlet="sectionLangInfo; context: {info: languageService.getArtworkSectionInfo(tempArtworkSection, language)}">
+      </ng-container>
+
+      <ng-template #sectionLangInfo let-info="info">
+        <app-labeled-field [label]="'Название'" [required]="true">
+          <input class="text-field"
+                 type="text"
+                 name="artworkSectionName{{ info.language }}"
+                 [(ngModel)]="info.sectionName">
+        </app-labeled-field>
+        <app-labeled-field [label]="'Отображать в каталоге ' + info.language" [withCheckbox]="true">
+          <input class="text-field"
+                 type="checkbox"
+                 name="artworkSectionVisible{{ info.language }}"
+                 [(ngModel)]="info.visible">
+        </app-labeled-field>
+        <app-labeled-field [label]="'Отображать в прайс-листе ' + info.language" [withCheckbox]="true">
+          <input class="text-field"
+                 type="checkbox"
+                 name="artworkSectionVisibleInPricelist{{ info.language }}"
+                 [(ngModel)]="info.visibleInPricelist">
+        </app-labeled-field>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
+
+<app-loading-screen-modal *ngIf="isLoading">
+</app-loading-screen-modal>

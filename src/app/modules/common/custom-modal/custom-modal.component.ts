@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, TemplateRef} from "@angular/core";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-custom-modal',
@@ -13,22 +13,54 @@ export class CustomModalComponent implements OnInit {
   @Input() contentBlock?: TemplateRef<any>;
   @Input() okButtonText?: string;
   @Input() cancelButtonText?: string;
+  @Input() assuranceTitle?: string;
+  @Input() assuranceText?: string;
+  @Input() assuranceOkButtonText?: string;
+  @Input() assuranceCancelButtonText?: string;
+  @Input() needAssuranceOnOkButton?: boolean = false;
+  @Input() needAssuranceOnCancelButton?: boolean = false;
 
-  constructor(public activeModal: NgbActiveModal) {
+  constructor(public activeModal: NgbActiveModal,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
   }
 
-  open() {
-
-  }
-
   continue() {
-    this.activeModal.close(true);
+    if (this.needAssuranceOnOkButton) {
+      const assuranceModalRef = this.modalService.open(CustomModalComponent);
+      assuranceModalRef.componentInstance.title = this.assuranceTitle;
+      assuranceModalRef.componentInstance.text = this.assuranceText;
+      assuranceModalRef.componentInstance.okButtonText = this.assuranceOkButtonText;
+      assuranceModalRef.componentInstance.cancelButtonText = this.assuranceCancelButtonText;
+      assuranceModalRef.result.then((res) => {
+        if (res) {
+          this.close(true);
+        }
+      });
+    } else {
+      this.close(true);
+    }
   }
 
   cancel() {
-    this.activeModal.close(false);
+    if (this.needAssuranceOnCancelButton) {
+      const assuranceModalRef = this.modalService.open(CustomModalComponent);
+      assuranceModalRef.componentInstance.text = this.assuranceText;
+      assuranceModalRef.componentInstance.okButtonText = this.assuranceOkButtonText;
+      assuranceModalRef.componentInstance.cancelButtonText = this.assuranceCancelButtonText;
+      assuranceModalRef.result.then((res) => {
+        if (res) {
+          this.close(false);
+        }
+      });
+    } else {
+      this.close(false);
+    }
+  }
+
+  close(value: any) {
+    this.activeModal.close(value);
   }
 }

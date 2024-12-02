@@ -4,21 +4,21 @@
   margin: 20px 0;
 }
 
-.type-table {
+.section-table {
   width: 100%;
 }
 
-.type-table th {
+.section-table th {
   color: var(--beige);
   font-weight: 300;
   text-align: left;
 }
 
-.type-table th,td {
+.section-table th,td {
   padding: 3px;
 }
 
-.type-table .small-cell {
+.section-table .small-cell {
   width: 0;
   white-space: nowrap;
 }

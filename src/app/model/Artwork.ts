@@ -13,8 +13,8 @@ export class Artwork {
   weight?: number;
   creationDate?: string;
   creationDateTemp?: Date;
-  artworkLangInfoList?: ArtworkLangInfo[] = [];
-  images?: string[] = [];
+  artworkLangInfoList: ArtworkLangInfo[] = [];
+  images: string[] = [];
   video?: string;
 
   constructor() {

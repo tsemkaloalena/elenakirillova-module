@@ -7,9 +7,12 @@ import {ActivatedRoute} from "@angular/router";
 import {ArtworkService} from "../../../../service/artwork.service";
 import {RedirectService} from "../../../../service/redirect.service";
 import {LanguageService} from "../../../../service/language.service";
-import {map, Observable, switchMap} from "rxjs";
+import {catchError, map, Observable, switchMap} from "rxjs";
 import {ArtworkContainer} from "../edit-artwork.component";
 import {EditArtworkTypeModalComponent} from "../edit-artwork-type-modal/edit-artwork-type-modal.component";
+import {ErrorUtilService} from "../../../../service/error.util.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {EditArtworkSectionModalComponent} from "../edit-artwork-section-modal/edit-artwork-section-modal.component";
 
 @Component({
   selector: 'app-edit-artwork-info',
@@ -20,6 +23,7 @@ import {EditArtworkTypeModalComponent} from "../edit-artwork-type-modal/edit-art
 export class EditArtworkInfoComponent implements OnInit {
   @ViewChild('artworkInfo') artworkInfo!: TemplateRef<any>;
   @ViewChild('editArtworkTypeModalComponent') editArtworkTypeModalComponent!: EditArtworkTypeModalComponent;
+  @ViewChild('editArtworkSectionModalComponent') editArtworkSectionModalComponent!: EditArtworkSectionModalComponent;
   @Input() artworkContainer!: ArtworkContainer;
 
   isNew: boolean = true;
@@ -30,7 +34,8 @@ export class EditArtworkInfoComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private artworkService: ArtworkService,
               private redirectService: RedirectService,
-              protected languageService: LanguageService) {
+              protected languageService: LanguageService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -39,6 +44,10 @@ export class EditArtworkInfoComponent implements OnInit {
     let loadInfo = this.artworkService.getArtworkTypes().pipe(
       map(types => {
         this.artworkTypes = types;
+      }),
+      catchError((err) => {
+        this.isLoading = false;
+        return ErrorUtilService.processError(err, this.modalService);
       })
     );
     if (!!artworkId) {
@@ -68,6 +77,10 @@ export class EditArtworkInfoComponent implements OnInit {
           return;
         }
         this.artworkContainer.artwork = artwork;
+      }),
+      catchError((err) => {
+        this.isLoading = false;
+        return ErrorUtilService.processError(err, this.modalService);
       })
     );
   }
@@ -85,17 +98,19 @@ export class EditArtworkInfoComponent implements OnInit {
         if (sections?.length > 0) {
           this.artwork.artworkSection = null;
         }
+      }),
+      catchError((err) => {
+        this.isLoading = false;
+        return ErrorUtilService.processError(err, this.modalService);
       })
     ).subscribe();
   }
 
   onCreateSectionClicked() {
-
-    // this.artwork.artworkSection =
+    this.editArtworkSectionModalComponent.openModal();
   }
 
   onCreateTypeClicked() {
     this.editArtworkTypeModalComponent.openModal();
-    // this.artwork.artworkType =
   }
 }

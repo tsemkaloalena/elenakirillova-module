@@ -1,34 +1,34 @@
 import {Component, Input, OnInit, TemplateRef, ViewChild} from "@angular/core";
-import {ArtworkType} from "../../../../model/ArtworkType";
-import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {ArtworkSection} from "../../../../model/ArtworkSection";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CustomModalComponent} from "../../../common/custom-modal/custom-modal.component";
 import {LanguageService} from "../../../../service/language.service";
-import {ArtworkTypeLangInfo} from "../../../../model/ArtworkTypeLangInfo";
+import {ArtworkSectionLangInfo} from "../../../../model/ArtworkSectionLangInfo";
 import {ArtworkService} from "../../../../service/artwork.service";
 import {catchError, forkJoin, map, Observable} from "rxjs";
-import {ArtworkTypeService} from "../../../../service/artworkType.service";
 import {ErrorUtilService} from "../../../../service/error.util.service";
+import {ArtworkSectionService} from "../../../../service/artworkSection.service";
 
 @Component({
-  selector: 'app-edit-artwork-type-modal',
-  templateUrl: './edit-artwork-type-modal.component.html',
-  styleUrls: ['./edit-artwork-type-modal.component.scss'],
+  selector: 'app-edit-artwork-section-modal',
+  templateUrl: './edit-artwork-section-modal.component.html',
+  styleUrls: ['./edit-artwork-section-modal.component.scss'],
   standalone: false
 })
-export class EditArtworkTypeModalComponent implements OnInit {
-  @ViewChild('typesModalContent') typesModalContent!: TemplateRef<any>;
-  @ViewChild('editTypeModal') editTypeModal!: TemplateRef<any>;
-  @Input() artworkTypes: ArtworkType[] = [];
+export class EditArtworkSectionModalComponent implements OnInit {
+  @ViewChild('sectionsModalContent') sectionsModalContent!: TemplateRef<any>;
+  @ViewChild('editSectionModal') editSectionModal!: TemplateRef<any>;
+  @Input() artworkSections: ArtworkSection[] = [];
   observables: Observable<any>[] = [];
-  typesToCreate: ArtworkType[] = [];
-  typesToEdit = new Map<string, ArtworkType>();
-  tempArtworkType: ArtworkType = new ArtworkType();
+  sectionsToCreate: ArtworkSection[] = [];
+  sectionsToEdit = new Map<string, ArtworkSection>();
+  tempArtworkSection: ArtworkSection = new ArtworkSection();
   isLoading = false;
 
   constructor(private modalService: NgbModal,
               protected languageService: LanguageService,
               private artworkService: ArtworkService,
-              private artworkTypeService: ArtworkTypeService) {
+              private artworkSectionService: ArtworkSectionService) {
   }
 
   ngOnInit(): void {
@@ -36,15 +36,15 @@ export class EditArtworkTypeModalComponent implements OnInit {
 
   private clearLocalStorage() {
     this.observables = [];
-    this.typesToCreate = [];
-    this.typesToEdit = new Map<string, ArtworkType>();
+    this.sectionsToCreate = [];
+    this.sectionsToEdit = new Map<string, ArtworkSection>();
   }
 
   openModal(): void {
     this.clearLocalStorage();
     const modalRef = this.modalService.open(CustomModalComponent);
-    modalRef.componentInstance.title = 'Типы работ';
-    modalRef.componentInstance.contentBlock = this.typesModalContent;
+    modalRef.componentInstance.title = 'Серии';
+    modalRef.componentInstance.contentBlock = this.sectionsModalContent;
     modalRef.componentInstance.okButtonText = 'Сохранить изменения';
     modalRef.componentInstance.cancelButtonText = 'Отмена';
     modalRef.componentInstance.needAssuranceOnCancelButton = true;
@@ -73,71 +73,71 @@ export class EditArtworkTypeModalComponent implements OnInit {
   }
 
   private setAllObservables() {
-    this.typesToCreate.forEach(type => {
-      this.observables.push(this.artworkTypeService.createNewArtworkType(type));
+    this.sectionsToCreate.forEach(section => {
+      this.observables.push(this.artworkSectionService.createNewArtworkSection(section));
     });
-    this.typesToEdit.forEach((type, id) => {
-      this.observables.push(this.artworkTypeService.updateArtworkType(type));
+    this.sectionsToEdit.forEach((section, id) => {
+      this.observables.push(this.artworkSectionService.updateArtworkSection(section));
     });
   }
 
-  protected getAllLanguagesInfo(artworkType: ArtworkType): ArtworkTypeLangInfo[] {
-    return artworkType.artworkTypeLangInfoList
-      .sort((t1: ArtworkTypeLangInfo, t2: ArtworkTypeLangInfo) => t1.language.localeCompare(t2.language));
+  protected getAllLanguagesInfo(artworkSection: ArtworkSection): ArtworkSectionLangInfo[] {
+    return artworkSection.artworkSectionLangInfos
+      .sort((t1: ArtworkSectionLangInfo, t2: ArtworkSectionLangInfo) => t1.language.localeCompare(t2.language));
   }
 
-  protected createNewType() {
-    this.tempArtworkType = new ArtworkType();
+  protected createNewSection() {
+    this.tempArtworkSection = new ArtworkSection();
     const modalRef = this.modalService.open(CustomModalComponent);
     modalRef.componentInstance.title = 'Создать новый';
-    modalRef.componentInstance.contentBlock = this.editTypeModal;
+    modalRef.componentInstance.contentBlock = this.editSectionModal;
     modalRef.componentInstance.okButtonText = 'Сохранить';
     modalRef.componentInstance.cancelButtonText = 'Отмена';
     modalRef.result.then((res) => {
       if (res) {
-        this.typesToCreate.push(JSON.parse(JSON.stringify(this.tempArtworkType)));
+        this.sectionsToCreate.push(JSON.parse(JSON.stringify(this.tempArtworkSection)));
       }
     });
   }
 
-  protected editType(artworkType: ArtworkType) {
-    this.tempArtworkType = artworkType;
+  protected editSection(artworkSection: ArtworkSection) {
+    this.tempArtworkSection = artworkSection;
     const modalRef = this.modalService.open(CustomModalComponent);
     modalRef.componentInstance.title = 'Редактировать';
-    modalRef.componentInstance.contentBlock = this.editTypeModal;
+    modalRef.componentInstance.contentBlock = this.editSectionModal;
     modalRef.componentInstance.okButtonText = 'Сохранить';
     modalRef.componentInstance.cancelButtonText = 'Отмена';
     modalRef.result.then((res) => {
       if (res) {
-        artworkType = JSON.parse(JSON.stringify(this.tempArtworkType));
-        this.typesToEdit.set(artworkType.id!, this.tempArtworkType);
+        artworkSection = JSON.parse(JSON.stringify(this.tempArtworkSection));
+        this.sectionsToEdit.set(artworkSection.id!, this.tempArtworkSection);
       }
     });
   }
 
-  protected editNewType(editIndex: number) {
-    this.tempArtworkType = this.typesToCreate.at(editIndex)!;
+  protected editNewSection(editIndex: number) {
+    this.tempArtworkSection = this.sectionsToCreate.at(editIndex)!;
     const modalRef = this.modalService.open(CustomModalComponent);
     modalRef.componentInstance.title = 'Редактировать';
-    modalRef.componentInstance.contentBlock = this.editTypeModal;
+    modalRef.componentInstance.contentBlock = this.editSectionModal;
     modalRef.componentInstance.okButtonText = 'Сохранить';
     modalRef.componentInstance.cancelButtonText = 'Отмена';
     modalRef.result.then((res) => {
       if (res) {
-        this.typesToCreate[editIndex] = JSON.parse(JSON.stringify(this.tempArtworkType));
+        this.sectionsToCreate[editIndex] = JSON.parse(JSON.stringify(this.tempArtworkSection));
       }
     });
   }
 
-  protected deleteType(artworkType: ArtworkType) {
+  protected deleteSection(artworkSection: ArtworkSection) {
     this.isLoading = true;
-    this.artworkService.getArtworksByType(artworkType.id!).pipe(
+    this.artworkService.getArtworksBySection(artworkSection.id!).pipe(
       map(artworkList => {
         this.isLoading = false;
         if (!artworkList || artworkList?.length === 0) {
-          this.observables.push(this.artworkTypeService.deleteArtworkType(artworkType.id!));
-          const deleteIndex = this.artworkTypes.findIndex(type => type.id === artworkType.id);
-          this.artworkTypes.splice(deleteIndex, 1);
+          this.observables.push(this.artworkSectionService.deleteArtworkSection(artworkSection.id!));
+          const deleteIndex = this.artworkSections.findIndex(section => section.id === artworkSection.id);
+          this.artworkSections.splice(deleteIndex, 1);
         } else {
           const warnModalRef = this.modalService.open(CustomModalComponent);
           warnModalRef.componentInstance.text = `Данный тип невозможно удалить, ему принадлежат работы ${artworkList.map(a => a.id).join(', ')}. Необходимо сначала заменить их тип на другой.`;
@@ -150,7 +150,7 @@ export class EditArtworkTypeModalComponent implements OnInit {
     ).subscribe();
   }
 
-  protected deleteNewType(deleteIndex: number) {
-    this.typesToCreate.splice(deleteIndex, 1);
+  protected deleteNewSection(deleteIndex: number) {
+    this.sectionsToCreate.splice(deleteIndex, 1);
   }
 }

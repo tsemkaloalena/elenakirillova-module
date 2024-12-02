@@ -7,8 +7,7 @@ import getAllLanguages = Language.getAllLanguages;
 export class ArtworkSection {
   id?: string;
   numOrder?: number;
-  artworkSectionLangInfos?: ArtworkSectionLangInfo[] = [];
-  artworks?: Artwork[] = [];
+  artworkSectionLangInfos: ArtworkSectionLangInfo[] = [];
 
   constructor() {
     ArtworkSection.initLangInfoList(this);

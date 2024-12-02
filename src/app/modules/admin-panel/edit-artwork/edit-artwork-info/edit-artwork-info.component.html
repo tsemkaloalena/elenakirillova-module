@@ -19,7 +19,6 @@
     <app-labeled-field [label]="'Вес'">
       <input class="text-field"
              type="text"
-             id="artworkWeight"
              name="artworkWeight"
              [(ngModel)]="artwork.weight">
       <div class="measurement-unit">кг</div>
@@ -27,7 +26,6 @@
     <app-labeled-field [label]="'Дата создания'">
       <input class="text-field"
              type="date"
-             id="creationDate"
              name="creationDate"
              [(ngModel)]="artwork.creationDateTemp">
     </app-labeled-field>
@@ -46,7 +44,6 @@
   <app-labeled-field [label]="'Название'" [required]="true">
     <input class="text-field"
            type="text"
-           id="artworkName{{ info.language }}"
            name="artworkName{{ info.language }}"
            [(ngModel)]="info.artworkName">
   </app-labeled-field>
@@ -65,14 +62,12 @@
   <app-labeled-field [label]="'Размер'">
     <input class="text-field"
            type="text"
-           id="artworkSize{{ info.language }}"
            name="artworkSize{{ info.language }}"
            [(ngModel)]="info.size">
   </app-labeled-field>
   <app-labeled-field [label]="'Цена'">
     <input class="text-field"
            type="text"
-           id="artworkPrice{{ info.language }}"
            name="artworkPrice{{ info.language }}"
            [(ngModel)]="info.price">
     <div>{{ getCurrencySymbol(info.language) }}</div>
@@ -80,15 +75,13 @@
   <app-labeled-field [label]="'Отображать в каталоге ' + info.language" [withCheckbox]="true">
     <input class="text-field"
            type="checkbox"
-           id="artworkVisible{{ info.language }}"
            name="artworkVisible{{ info.language }}"
            [(ngModel)]="info.visible">
   </app-labeled-field>
   <app-labeled-field [label]="'Отображать в прайс-листе ' + info.language" [withCheckbox]="true">
     <input class="text-field"
            type="checkbox"
-           id="artworkVisible{{ info.language }}"
-           name="artworkVisible{{ info.language }}"
+           name="artworkVisibleInPricelist{{ info.language }}"
            [(ngModel)]="info.visibleInPricelist">
   </app-labeled-field>
 
@@ -96,4 +89,7 @@
   <app-edit-artwork-type-modal #editArtworkTypeModalComponent
                                [artworkTypes]="artworkTypes">
   </app-edit-artwork-type-modal>
+  <app-edit-artwork-section-modal #editArtworkSectionModalComponent
+                                  [artworkSections]="artworkSections">
+  </app-edit-artwork-section-modal>
 </ng-template>

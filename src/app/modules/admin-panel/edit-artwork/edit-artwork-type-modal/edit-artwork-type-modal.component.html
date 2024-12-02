@@ -1,18 +1,53 @@
-список типов прокручивающийся
-кнопка добавить в доп модалке
-LoadingScreenComponent на всё
-
 <ng-template #typesModalContent>
-  <div class="type-table" *ngFor="let artworkType of artworkTypes">
-    <div *ngFor="let langInfo of getAllLanguagesInfo(artworkType)">{{ langInfo }}</div>
-    <button class="button edit-button" (click)="editType(artworkType)"></button>
-    <button class="button trash-button" (click)="deleteType(artworkType)"></button>
-  </div>
-  <div class="type-table" *ngFor="let artworkType of typesToCreate; let i = index">
-    <div *ngFor="let langInfo of getAllLanguagesInfo(artworkType)">{{ langInfo }}</div>
-    <button class="button edit-button" (click)="editNewType(i)"></button>
-    <button class="button trash-button" (click)="deleteNewType(i)"></button>
-  </div>
+  <table class="type-table">
+    <tr>
+      <ng-container *ngFor="let language of languageService.getAllLanguages()">
+        <th>{{ language }}</th>
+        <th class="small-cell">Отображать<br>в каталоге</th>
+        <th class="small-cell">Отображать<br>в прайслисте</th>
+      </ng-container>
+      <th class="small-cell"></th>
+      <th class="small-cell"></th>
+    </tr>
+    <tr *ngFor="let artworkType of artworkTypes">
+      <ng-container *ngFor="let langInfo of getAllLanguagesInfo(artworkType); let i = index">
+        <td>{{ langInfo.typeName }}</td>
+        <td class="small-cell">
+          <input disabled
+               type="checkbox"
+               name="visible_{{ artworkType.id }}_{{ i }}"
+               [(ngModel)]="langInfo.visible">
+        </td>
+        <td class="small-cell">
+          <input disabled
+               type="checkbox"
+               name="visibleInPricelist_{{ artworkType.id }}_{{ i }}"
+               [(ngModel)]="langInfo.visibleInPricelist">
+        </td>
+      </ng-container>
+      <td class="small-cell"><button class="button edit-button" (click)="editType(artworkType)"></button></td>
+      <td class="small-cell"><button class="button trash-button" (click)="deleteType(artworkType)"></button></td>
+    </tr>
+    <tr *ngFor="let artworkType of typesToCreate; let i = index">
+      <ng-container *ngFor="let langInfo of getAllLanguagesInfo(artworkType); let j = index">
+        <td>{{ langInfo.typeName }}</td>
+        <td class="small-cell">
+          <input disabled
+                   type="checkbox"
+                   name="visible_{{ i }}_{{ j }}"
+                   [(ngModel)]="langInfo.visible">
+        </td>
+        <td class="small-cell"
+        ><input disabled
+                   type="checkbox"
+                   name="visibleInPricelist_{{ i }}_{{ j }}"
+                   [(ngModel)]="langInfo.visibleInPricelist">
+        </td>
+      </ng-container>
+      <td class="small-cell"><button class="button edit-button" (click)="editNewType(i)"></button></td>
+      <td class="small-cell"><button class="button trash-button" (click)="deleteNewType(i)"></button></td>
+    </tr>
+  </table>
 
   <button class="button beige-button" (click)="createNewType()">Добавить</button>
 </ng-template>
@@ -21,28 +56,30 @@ LoadingScreenComponent на всё
   <div class="edit-lang-info">
     <div *ngFor="let language of languageService.getAllLanguages()" class="edit-info-block">
       <h2>{{ language }}</h2>
+      <ng-container
+        *ngTemplateOutlet="typeLangInfo; context: {info: languageService.getArtworkTypeInfo(tempArtworkType, language)}">
+      </ng-container>
 
-      <app-labeled-field [label]="'Название'" [required]="true">
-        <input class="text-field"
-               type="text"
-               id="artworkName{{ info.language }}"
-               name="artworkName{{ info.language }}"
-               [(ngModel)]="info.artworkName">
-      </app-labeled-field>
-      <app-labeled-field [label]="'Отображать в каталоге ' + info.language" [withCheckbox]="true">
-        <input class="text-field"
-               type="checkbox"
-               id="artworkVisible{{ info.language }}"
-               name="artworkVisible{{ info.language }}"
-               [(ngModel)]="info.visible">
-      </app-labeled-field>
-      <app-labeled-field [label]="'Отображать в прайс-листе ' + info.language" [withCheckbox]="true">
-        <input class="text-field"
-               type="checkbox"
-               id="artworkVisible{{ info.language }}"
-               name="artworkVisible{{ info.language }}"
-               [(ngModel)]="info.visibleInPricelist">
-      </app-labeled-field>
+      <ng-template #typeLangInfo let-info="info">
+        <app-labeled-field [label]="'Название'" [required]="true">
+          <input class="text-field"
+                 type="text"
+                 name="artworkTypeName{{ info.language }}"
+                 [(ngModel)]="info.typeName">
+        </app-labeled-field>
+        <app-labeled-field [label]="'Отображать в каталоге ' + info.language" [withCheckbox]="true">
+          <input class="text-field"
+                 type="checkbox"
+                 name="artworkTypeVisible{{ info.language }}"
+                 [(ngModel)]="info.visible">
+        </app-labeled-field>
+        <app-labeled-field [label]="'Отображать в прайс-листе ' + info.language" [withCheckbox]="true">
+          <input class="text-field"
+                 type="checkbox"
+                 name="artworkTypeVisibleInPricelist{{ info.language }}"
+                 [(ngModel)]="info.visibleInPricelist">
+        </app-labeled-field>
+      </ng-template>
     </div>
   </div>
 </ng-template>

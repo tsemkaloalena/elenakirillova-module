@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from "@angular/core";
 import {AdminService} from "../../../service/admin.service";
 import {ArtworkContainer} from "../../admin-panel/edit-artwork/edit-artwork.component";
 import {catchError, map, NEVER} from "rxjs";
+import {ErrorUtilService} from "../../../service/error.util.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-image-uploader',
@@ -12,7 +14,8 @@ import {catchError, map, NEVER} from "rxjs";
 export class ImageUploaderComponent implements OnInit {
   @Input() artworkContainer!: ArtworkContainer;
 
-  constructor(private adminService: AdminService) {
+  constructor(private adminService: AdminService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -30,6 +33,10 @@ export class ImageUploaderComponent implements OnInit {
           } else {
 
           }
+        }),
+        catchError((err) => {
+          // this.isLoading = false;
+          return ErrorUtilService.processError(err, this.modalService);
         })
       ).subscribe();
     }

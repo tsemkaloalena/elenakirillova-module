@@ -2,7 +2,7 @@ import {AbstractType, Component, OnInit, TemplateRef, ViewChild} from "@angular/
 import {ActivatedRoute} from "@angular/router";
 import {Artwork} from "../../../model/Artwork";
 import {ArtworkService} from "../../../service/artwork.service";
-import {map, Observable, of, switchMap} from "rxjs";
+import {catchError, map, Observable, of, switchMap} from "rxjs";
 import {RedirectService} from "../../../service/redirect.service";
 import {Language} from "../../../model/enums/Language";
 import {ArtworkLangInfo} from "../../../model/ArtworkLangInfo";
@@ -12,6 +12,7 @@ import {ArtworkSection} from "../../../model/ArtworkSection";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CustomModalComponent} from "../../common/custom-modal/custom-modal.component";
 import {AdminService} from "../../../service/admin.service";
+import {ErrorUtilService} from "../../../service/error.util.service";
 
 @Component({
   selector: 'app-edit-artwork',
@@ -53,6 +54,10 @@ export class EditArtworkComponent implements OnInit {
       map(newArtwork => {
         this.artworkContainer.artwork = newArtwork;
         this.isLoading = false;
+      }),
+      catchError((err) => {
+        this.isLoading = false;
+        return ErrorUtilService.processError(err, this.modalService);
       })
     );
   }
@@ -78,6 +83,10 @@ export class EditArtworkComponent implements OnInit {
           this.save().pipe(
             map(() => {
               this.exit();
+            }),
+            catchError((err) => {
+              this.isLoading = false;
+              return ErrorUtilService.processError(err, this.modalService);
             })
           ).subscribe();
         }

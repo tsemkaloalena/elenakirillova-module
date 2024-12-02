@@ -11,6 +11,9 @@ import {EditArtworkFilesComponent} from "./edit-artwork/edit-artwork-files/edit-
 import {
   EditArtworkTypeModalComponent
 } from "./edit-artwork/edit-artwork-type-modal/edit-artwork-type-modal.component";
+import {
+  EditArtworkSectionModalComponent
+} from "./edit-artwork/edit-artwork-section-modal/edit-artwork-section-modal.component";
 
 @NgModule({
   imports: [
@@ -25,7 +28,8 @@ import {
     EditArtworkComponent,
     EditArtworkInfoComponent,
     EditArtworkFilesComponent,
-    EditArtworkTypeModalComponent
+    EditArtworkTypeModalComponent,
+    EditArtworkSectionModalComponent
   ],
   providers: [
   ],
@@ -33,7 +37,8 @@ import {
     EditArtworkComponent,
     EditArtworkInfoComponent,
     EditArtworkFilesComponent,
-    EditArtworkTypeModalComponent
+    EditArtworkTypeModalComponent,
+    EditArtworkSectionModalComponent
   ],
   bootstrap: []
 })
