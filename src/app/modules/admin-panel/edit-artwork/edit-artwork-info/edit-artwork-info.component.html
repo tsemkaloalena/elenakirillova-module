@@ -1,6 +1,4 @@
 <div *ngIf="!isLoading">
-  <!--  Создание/редактирование секции через модалку -->
-  <!--  Создание/редактирование типа работы через модалку -->
   <div class="edit-info-block">
     <h2>Общая информация</h2>
     <app-labeled-field [label]="'Тип работы'" [required]="true">
@@ -14,7 +12,7 @@
         <option [ngValue]="null">-</option>
         <option *ngFor="let section of artworkSections" [ngValue]="section">{{ languageService.getArtworkSectionInfo(section).sectionName }}</option>
       </select>
-      <button *ngIf="!!artwork.artworkType?.id" class="button edit-button" (click)="onCreateSectionClicked()"></button>
+      <button class="button edit-button" (click)="onCreateSectionClicked()"></button>
     </app-labeled-field>
     <app-labeled-field [label]="'Вес'">
       <input class="text-field"

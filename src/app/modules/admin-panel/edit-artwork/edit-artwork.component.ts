@@ -13,6 +13,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CustomModalComponent} from "../../common/custom-modal/custom-modal.component";
 import {AdminService} from "../../../service/admin.service";
 import {ErrorUtilService} from "../../../service/error.util.service";
+import {BaseAdminPageComponent} from "../base-admin-page/base-admin-page.component";
+import {AuthService} from "../../../service/auth.service";
 
 @Component({
   selector: 'app-edit-artwork',
@@ -20,17 +22,20 @@ import {ErrorUtilService} from "../../../service/error.util.service";
   styleUrls: ['./edit-artwork.component.scss'],
   standalone: false
 })
-export class EditArtworkComponent implements OnInit {
+export class EditArtworkComponent extends BaseAdminPageComponent implements OnInit {
   artworkContainer = new ArtworkContainer();
   currentStep = 0;
   isLoading = false;
 
   constructor(private modalService: NgbModal,
               private adminService: AdminService,
-              private redirectService: RedirectService) {
+              protected override redirectService: RedirectService,
+              protected override authService: AuthService) {
+    super(authService, redirectService);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
+    super.ngOnInit();
   }
 
   private nextPage() {
@@ -63,8 +68,15 @@ export class EditArtworkComponent implements OnInit {
   }
 
   goToPhotoLoading() {
-
-    this.nextPage();
+    this.save().pipe(
+      map(() => {
+        this.nextPage();
+      }),
+      catchError((err) => {
+        this.isLoading = false;
+        return ErrorUtilService.processError(err, this.modalService);
+      })
+    ).subscribe();
   }
 
   backToInfoEditing() {

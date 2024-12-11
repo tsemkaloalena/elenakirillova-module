@@ -1,0 +1,26 @@
+<app-header [admin]="true">
+</app-header>
+
+<div class="main-container">
+  <h2>Вход в панель администратора</h2>
+  <div class="error-text" *ngIf="!!errorText">{{ errorText }}</div>
+  <app-labeled-field [label]="'Логин'">
+    <input class="text-field"
+           type="text"
+           name="username"
+           [(ngModel)]="authData.username">
+  </app-labeled-field>
+  <app-labeled-field [label]="'Пароль'">
+    <input class="text-field"
+           type="password"
+           name="password"
+           [(ngModel)]="authData.password">
+  </app-labeled-field>
+  <button class="button yellow-button" (click)="login()">Войти</button>
+</div>
+
+<app-footer [admin]="true">
+</app-footer>
+
+<app-loading-screen-modal *ngIf="isLoading">
+</app-loading-screen-modal>

@@ -10,6 +10,9 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 export class ErrorUtilService {
   public static processError(err: any, modalService: NgbModal) {
     console.log(err);
+    if (err.status === 401) {
+      // TODO login
+    }
     const modalRef = modalService.open(CustomModalComponent);
     modalRef.componentInstance.text = err.message;
     modalRef.componentInstance.okButtonText = 'Понятно';

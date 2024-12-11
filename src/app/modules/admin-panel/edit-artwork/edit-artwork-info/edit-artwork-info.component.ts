@@ -92,7 +92,7 @@ export class EditArtworkInfoComponent implements OnInit {
       this.artworkSections = [];
       return;
     }
-    this.artworkService.getArtworkSections(this.artworkContainer.artwork.artworkType.id).pipe(
+    this.artworkService.getArtworkSections().pipe(
       map(sections => {
         this.artworkSections = sections;
         if (sections?.length > 0) {

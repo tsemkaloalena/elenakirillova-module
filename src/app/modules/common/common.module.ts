@@ -9,6 +9,7 @@ import {ImageUploaderComponent} from "./image-uploader/image-uploader.component"
 import {CustomModalComponent} from "./custom-modal/custom-modal.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {LoadingScreenModalComponent} from "./loading-screen-modal/loading-screen-modal.component";
+import {ProgressBarComponent} from "./progress-bar/progress-bar.component";
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import {LoadingScreenModalComponent} from "./loading-screen-modal/loading-screen
     LabeledFieldComponent,
     ImageUploaderComponent,
     CustomModalComponent,
-    LoadingScreenModalComponent
+    LoadingScreenModalComponent,
+    ProgressBarComponent
   ],
   providers: [],
   exports: [
@@ -32,7 +34,8 @@ import {LoadingScreenModalComponent} from "./loading-screen-modal/loading-screen
     LabeledFieldComponent,
     ImageUploaderComponent,
     CustomModalComponent,
-    LoadingScreenModalComponent
+    LoadingScreenModalComponent,
+    ProgressBarComponent
   ],
   bootstrap: []
 })

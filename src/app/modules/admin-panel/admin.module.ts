@@ -14,6 +14,8 @@ import {
 import {
   EditArtworkSectionModalComponent
 } from "./edit-artwork/edit-artwork-section-modal/edit-artwork-section-modal.component";
+import {LoginComponent} from "./login/login.component";
+import {BaseAdminPageComponent} from "./base-admin-page/base-admin-page.component";
 
 @NgModule({
   imports: [
@@ -29,7 +31,8 @@ import {
     EditArtworkInfoComponent,
     EditArtworkFilesComponent,
     EditArtworkTypeModalComponent,
-    EditArtworkSectionModalComponent
+    EditArtworkSectionModalComponent,
+    LoginComponent
   ],
   providers: [
   ],
@@ -38,7 +41,8 @@ import {
     EditArtworkInfoComponent,
     EditArtworkFilesComponent,
     EditArtworkTypeModalComponent,
-    EditArtworkSectionModalComponent
+    EditArtworkSectionModalComponent,
+    LoginComponent
   ],
   bootstrap: []
 })

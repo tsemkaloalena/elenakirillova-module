@@ -54,9 +54,9 @@ export class EditArtworkTypeModalComponent implements OnInit {
     modalRef.componentInstance.assuranceCancelButtonText = 'Остаться';
     modalRef.result.then((res) => {
       if (res) {
+        this.setAllObservables();
         if (this.observables.length > 0) {
           this.isLoading = true;
-          this.setAllObservables();
           forkJoin(this.observables).pipe(
             map(() => {
               this.isLoading = false;

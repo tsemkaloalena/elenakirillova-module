@@ -4,6 +4,7 @@ import {HomePageComponent} from "./modules/home-page/home-page.component";
 import {NotFoundErrorComponent} from "./modules/not-found-error/not-found-error.component";
 import {AdminModule} from "./modules/admin-panel/admin.module";
 import {EditArtworkComponent} from "./modules/admin-panel/edit-artwork/edit-artwork.component";
+import {LoginComponent} from "./modules/admin-panel/login/login.component";
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
           {
             path: 'edit-artwork',
             component: EditArtworkComponent
+          },
+          {
+            path: 'login',
+            component: LoginComponent
           }
         ]
       },
