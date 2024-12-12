@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {AdminService} from "../../../service/admin.service";
 import {ArtworkContainer} from "../../admin-panel/edit-artwork/edit-artwork.component";
 import {catchError, map} from "rxjs";
 import {ErrorUtilService} from "../../../service/error.util.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {HttpEventType} from "@angular/common/http";
+import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {ProgressBarComponent} from "../progress-bar/progress-bar.component";
 
 @Component({
@@ -15,7 +15,9 @@ import {ProgressBarComponent} from "../progress-bar/progress-bar.component";
 })
 export class ImageUploaderComponent implements OnInit {
   @Input() artworkContainer!: ArtworkContainer;
+  @Output() updateArtwork = new EventEmitter<any>();
   private uploadProgress = 0.0;
+  file?: any;
 
   constructor(private adminService: AdminService,
               private modalService: NgbModal) {
@@ -28,27 +30,33 @@ export class ImageUploaderComponent implements OnInit {
     const file: File = event.target.files[0];
     if (!!file) {
       const formData = new FormData();
-      formData.append('thumbnail', file);
+      formData.append('file', file);
+      const progressModalRef = this.modalService.open(ProgressBarComponent);
       this.adminService.uploadImage(this.artworkContainer.artwork.id, formData).pipe(
-        map(event => {
-          if (!!event) {
-            if (event.type == HttpEventType.UploadProgress) {
-              this.uploadProgress =  Math.round(100 * (event.loaded / (event.total || 1)));
+        map(httpEvent => {
+          if (!!httpEvent) {
+            if (httpEvent.type == HttpEventType.UploadProgress) {
+              this.uploadProgress =  Math.round(100 * (httpEvent.loaded / (httpEvent.total || 1)));
+            } else if (httpEvent.type === HttpEventType.ResponseHeader) {
+              progressModalRef.close();
+            } else if (httpEvent.type === HttpEventType.Response && !!httpEvent.body) {
+              this.artworkContainer.artwork = httpEvent.body;
             }
-            const modalRef = this.modalService.open(ProgressBarComponent);
-            // TODO this.artworkContainer.artwork = event.body;
           } else {
+            progressModalRef.close();
             ErrorUtilService.processError({
               message: 'Не удалось загрузить фотографию. Необходимо обратиться к разработчику с претензией'
             }, this.modalService);
           }
         }),
+        map(() => {
+          this.updateArtwork.emit();
+        }),
         catchError((err) => {
-          // this.isLoading = false;
+          progressModalRef.close();
           return ErrorUtilService.processError(err, this.modalService);
         })
       ).subscribe();
     }
   }
-  // TODO progress and cancel
 }

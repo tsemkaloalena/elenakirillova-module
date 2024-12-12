@@ -4,11 +4,14 @@
 <div class="main-container">
   <app-edit-artwork-info
     *ngIf="currentStep === 0"
-    [artworkContainer]="artworkContainer">
+    [artworkContainer]="artworkContainer"
+    [isLoading]="isLoading">
   </app-edit-artwork-info>
   <app-edit-artwork-files
     *ngIf="currentStep === 1"
-    [artworkContainer]="artworkContainer">
+    [artworkContainer]="artworkContainer"
+    [isLoading]="isLoading"
+    (updateArtworkEvent)="updateArtwork()">
   </app-edit-artwork-files>
 
   <div class="button-container">

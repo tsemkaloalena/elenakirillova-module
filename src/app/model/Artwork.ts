@@ -11,8 +11,8 @@ export class Artwork {
   artworkSection: ArtworkSection | null = null;
   numOrder?: number;
   weight?: number;
-  creationDate?: string;
-  creationDateTemp?: Date;
+  // creationDate?: string;
+  creationDate?: Date;
   artworkLangInfoList: ArtworkLangInfo[] = [];
   images: string[] = [];
   video?: string;

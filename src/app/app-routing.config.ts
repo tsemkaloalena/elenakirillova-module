@@ -9,11 +9,11 @@ import {LoginComponent} from "./modules/admin-panel/login/login.component";
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/app/home',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {
-    path: 'app',
+    path: '',
     children: [
       {
         path: 'admin',
@@ -43,7 +43,7 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {useHash: true, enableTracing: false})
+    RouterModule.forRoot(routes, {useHash: false, enableTracing: false})
   ],
   exports: [
     RouterModule

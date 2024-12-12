@@ -5,19 +5,27 @@ import {Injectable} from "@angular/core";
 })
 export class RedirectService {
 
-  public get404Url(): string {
-    return '/app/not-found-error';
+  public redirectTo404Page() {
+    this.redirect('/not-found-error');
   }
 
-  public getAdminArtworkUrl(artworkId: string, step: number) {
-    return `/app/admin/artwork/${artworkId}/edit/${step}`;
+  public redirectToAdminArtworkPage(artworkId: string, step: number) {
+    this.redirect(`/admin/edit-artwork?id=${artworkId}&step=${step}`);
   }
 
-  public getAdminArtworkCatalogUrl() {
-    return '';
+  public redirectToAdminNewArtworkPage() {
+    this.redirect('/admin/edit-artwork');
   }
 
-  public getLoginPage() {
-    return '/#/app/admin/login';
+  public redirectToAdminArtworkCatalogPage() {
+    this.redirect('');
+  }
+
+  public redirectToLoginPage() {
+    this.redirect('/admin/login');
+  }
+
+  private redirect(page: string) {
+    window.location.href = page;
   }
 }

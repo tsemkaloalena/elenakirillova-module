@@ -1,2 +1,10 @@
-<app-image-uploader>
+<app-image-uploader [artworkContainer]="artworkContainer"
+                    (updateArtwork)="updateArtwork()">
 </app-image-uploader>
+
+<div *ngIf="!isLoading">
+
+</div>
+
+<app-loading-block *ngIf="isLoading">
+</app-loading-block>

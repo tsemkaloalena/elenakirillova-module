@@ -1,14 +1,23 @@
 <div *ngIf="!isLoading">
   <div class="edit-info-block">
+    <h2>{{ title }}</h2>
     <h2>Общая информация</h2>
     <app-labeled-field [label]="'Тип работы'" [required]="true">
-      <select class="text-field" name="artworkType" [(ngModel)]="artwork.artworkType" (ngModelChange)="onArtworkTypeChanged()">
-        <option *ngFor="let type of artworkTypes" [ngValue]="type">{{ languageService.getArtworkTypeInfo(type).typeName }}</option>
+      <select class="text-field"
+              name="artworkType"
+              [(ngModel)]="artwork.artworkType"
+              (ngModelChange)="onArtworkTypeChanged()"
+              [compareWith]="compareById">
+        <option *ngFor="let type of artworkTypes"
+                [ngValue]="type">{{ languageService.getArtworkTypeInfo(type).typeName }}</option>
       </select>
       <button class="button edit-button" (click)="onCreateTypeClicked()"></button>
     </app-labeled-field>
     <app-labeled-field [label]="'Серия'">
-      <select class="text-field" name="artworkSection" [(ngModel)]="artwork.artworkSection">
+      <select class="text-field"
+              name="artworkSection"
+              [(ngModel)]="artwork.artworkSection"
+              [compareWith]="compareById">
         <option [ngValue]="null">-</option>
         <option *ngFor="let section of artworkSections" [ngValue]="section">{{ languageService.getArtworkSectionInfo(section).sectionName }}</option>
       </select>
@@ -25,7 +34,7 @@
       <input class="text-field"
              type="date"
              name="creationDate"
-             [(ngModel)]="artwork.creationDateTemp">
+             [(ngModel)]="artwork.creationDate">
     </app-labeled-field>
     <div class="edit-lang-info">
       <div *ngFor="let language of languageService.getAllLanguages()" class="edit-info-block">
@@ -91,3 +100,6 @@
                                   [artworkSections]="artworkSections">
   </app-edit-artwork-section-modal>
 </ng-template>
+
+<app-loading-screen-modal *ngIf="isLoading">
+</app-loading-screen-modal>

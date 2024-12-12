@@ -21,3 +21,10 @@
   max-height: 90%;
   overflow-y: auto;
 }
+
+.modal-header * {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 18px;
+  float: right;
+}

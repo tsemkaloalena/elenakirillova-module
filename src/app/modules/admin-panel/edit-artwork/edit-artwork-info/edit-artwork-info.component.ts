@@ -7,7 +7,7 @@ import {ActivatedRoute} from "@angular/router";
 import {ArtworkService} from "../../../../service/artwork.service";
 import {RedirectService} from "../../../../service/redirect.service";
 import {LanguageService} from "../../../../service/language.service";
-import {catchError, map, Observable, switchMap} from "rxjs";
+import {catchError, map, Observable, of, switchMap} from "rxjs";
 import {ArtworkContainer} from "../edit-artwork.component";
 import {EditArtworkTypeModalComponent} from "../edit-artwork-type-modal/edit-artwork-type-modal.component";
 import {ErrorUtilService} from "../../../../service/error.util.service";
@@ -26,10 +26,10 @@ export class EditArtworkInfoComponent implements OnInit {
   @ViewChild('editArtworkSectionModalComponent') editArtworkSectionModalComponent!: EditArtworkSectionModalComponent;
   @Input() artworkContainer!: ArtworkContainer;
 
-  isNew: boolean = true;
   artworkTypes: ArtworkType[] = [];
   artworkSections: ArtworkSection[] = [];
-  isLoading: boolean = false;
+  @Input() isLoading: boolean = false;
+  title: string = '';
 
   constructor(private route: ActivatedRoute,
               private artworkService: ArtworkService,
@@ -38,51 +38,31 @@ export class EditArtworkInfoComponent implements OnInit {
               private modalService: NgbModal) {
   }
 
-  ngOnInit(): void {
-    this.isLoading = true;
-    const artworkId = this.route.snapshot.paramMap.get('id');
-    let loadInfo = this.artworkService.getArtworkTypes().pipe(
-      map(types => {
-        this.artworkTypes = types;
-      }),
-      catchError((err) => {
-        this.isLoading = false;
-        return ErrorUtilService.processError(err, this.modalService);
-      })
-    );
-    if (!!artworkId) {
-      this.isNew = false;
-      loadInfo = this.loadArtworkInfo(loadInfo, artworkId);
-    } else {
-      this.isNew = true;
-      this.artworkContainer.artwork = new Artwork();
-    }
-    loadInfo.subscribe(() => {
-      this.isLoading = false;
-    });
-  }
-
   get artwork() {
     return this.artworkContainer.artwork;
   }
 
-  private loadArtworkInfo(loadInfo: Observable<any>, artworkId: string) {
-    return loadInfo.pipe(
-      switchMap(() => {
-        return this.artworkService.getById(artworkId);
-      }),
-      map(artwork => {
-        if (!artwork) {
-          window.location.href = this.redirectService.get404Url();
-          return;
-        }
-        this.artworkContainer.artwork = artwork;
+  ngOnInit(): void {
+    this.isLoading = true;
+    this.initTitle();
+    this.artworkService.getArtworkTypes().pipe(
+      map(types => {
+        this.artworkTypes = types;
+        this.isLoading = false;
       }),
       catchError((err) => {
         this.isLoading = false;
         return ErrorUtilService.processError(err, this.modalService);
       })
-    );
+    ).subscribe();
+  }
+
+  private initTitle() {
+    if (this.artworkContainer.isNew) {
+      this.title = 'Новая работа';
+    } else {
+      this.title = 'Редактирование работы';
+    }
   }
 
   getCurrencySymbol = Language.getCurrencySymbol;
@@ -112,5 +92,9 @@ export class EditArtworkInfoComponent implements OnInit {
 
   onCreateTypeClicked() {
     this.editArtworkTypeModalComponent.openModal();
+  }
+
+  compareById(type1: any, type2: any): boolean {
+    return !!type1.id && !!type2.id && type1.id === type2.id;
   }
 }

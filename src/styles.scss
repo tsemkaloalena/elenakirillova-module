@@ -98,3 +98,10 @@ input[type=checkbox] {
   mask-repeat: no-repeat;
   mask-position: center;
 }
+
+.close-button {
+  background-color: var(--light);
+  border: none;
+  float: right;
+  cursor: pointer;
+}

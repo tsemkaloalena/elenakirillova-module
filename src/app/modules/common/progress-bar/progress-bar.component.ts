@@ -18,4 +18,8 @@ export class ProgressBarComponent implements OnInit {
     }
   }
 
+  close(value: any) {
+    this.activeModal.close(value);
+  }
+
 }

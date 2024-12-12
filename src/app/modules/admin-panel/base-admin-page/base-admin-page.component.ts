@@ -12,7 +12,7 @@ export abstract class BaseAdminPageComponent implements OnInit {
   ngOnInit(): void {
     this.authService.checkAuth().pipe(
       catchError(err => {
-        window.location.href = this.redirectService.getLoginPage();
+        this.redirectService.redirectToLoginPage();
         return NEVER;
       })
     ).subscribe();

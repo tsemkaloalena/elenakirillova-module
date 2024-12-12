@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpRequest} from "@angular/common/http";
 import {Artwork} from "../model/Artwork";
 import {Observable} from "rxjs";
 import {ArtworkType} from "../model/ArtworkType";
@@ -16,12 +16,18 @@ export class ArtworkService {
     return this.http.get<Artwork | null>(`/api/artworks/getById/${id}`);
   }
 
+  getImage(filename: string): Observable<any> {
+    const params = new HttpParams();
+    params.set('filename', filename);
+    return this.http.post<Blob>('/api/artworks/getImage', { params, responseType: 'blob' });
+  }
+
   getArtworkTypes(): Observable<ArtworkType[]> {
-    return this.http.get<ArtworkType[]>(`/api/artworks/getTypes`);
+    return this.http.get<ArtworkType[]>('/api/artworks/getTypes');
   }
 
   getArtworkSections(): Observable<ArtworkSection[]> {
-    return this.http.get<ArtworkSection[]>(`/api/artworks/getAllSections`);
+    return this.http.get<ArtworkSection[]>('/api/artworks/getAllSections');
   }
 
   getArtworksByType(artworkTypeId: string): Observable<Artwork[]> {
